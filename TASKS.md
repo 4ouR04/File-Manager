@@ -1,7 +1,7 @@
 # Tasks To Complete
 
 + [x] 0. **Redis utils**
-  + Inside the folder [`utils`](utils), create a file [`redis.js`](utils/redis.js) that contains the class `RedisClient`.
+  + Inside the folder [`utils`](utils), create a file [`redis.ts`](utils/redis.ts) that contains the class `RedisClient`.
   + `RedisClient` should have:
     + The constructor that creates a client to Redis:
     + Any error of the redis client must be displayed in the console (you should use `on('error')` of the redis client).
@@ -12,7 +12,7 @@
   + After the class definition, create and export an instance of `RedisClient` called `redisClient`.
 
 + [x] 1. **MongoDB utils**
-  + Inside the folder [`utils`](utils), create a file [`db.js`](db.js) that contains the class `DBClient`.
+  + Inside the folder [`utils`](utils), create a file [`db.ts`](db.ts) that contains the class `DBClient`.
   + `DBClient` should have:
     + The constructor that creates a client to MongoDB:
       + host: from the environment variable `DB_HOST` or default: `localhost`.
@@ -24,13 +24,13 @@
   + After the class definition, create and export an instance of `DBClient` called `dbClient`.
 
 + [x] 2. **First API**
-  + Inside [`server.js`](server.js), create the Express server:
+  + Inside [`server.ts`](server.ts), create the Express server:
     + It should listen on the port set by the environment variable `PORT` or by default 5000.
-    + It should load all routes from the file [`routes/index.js`](routes/index.js).
-  + Inside the folder [`routes`](routes), create a file [`index.js`](routes/index.js) that contains all endpoints of our API:
+    + It should load all routes from the file [`routes/index.ts`](routes/index.ts).
+  + Inside the folder [`routes`](routes), create a file [`index.ts`](routes/index.ts) that contains all endpoints of our API:
     + `GET /status` => `AppController.getStatus`.
     + `GET /stats` => `AppController.getStats`.
-  + Inside the folder controllers, create a file AppController.js that contains the definition of the 2 endpoints:
+  + Inside the folder controllers, create a file AppController.ts that contains the definition of the 2 endpoints:
     + `GET /status` should return if Redis is alive and if the DB is alive too by using the 2 utils created previously: `{ "redis": true, "db": true }` with a status code 200.
     + `GET /stats` should return the number of users and files in DB: `{ "users": 12, "files": 1231 }` with a status code 200.
       + `users` collection must be used for counting all users.
@@ -38,9 +38,9 @@
 
 + [x] 3. **Create a new user**
   + Now that we have a simple API, it's time to add users to our database.
-  + In the file [`routes/index.js`](routes/index.js), add a new endpoint:
+  + In the file [`routes/index.ts`](routes/index.ts), add a new endpoint:
     + `POST /users` => `UsersController.postNew`.
-  + Inside [`controllers`](controllers), add a file [`UsersController.js`](UsersController.js) that contains the new endpoint:
+  + Inside [`controllers`](controllers), add a file [`UsersController.ts`](UsersController.ts) that contains the new endpoint:
     + `POST /users` should create a new user in DB:
       + To create a user, you must specify an `email` and a `password`.
       + If the `email` is missing, return an error `Missing email` with a status code 400.
@@ -54,11 +54,11 @@
         + `password`: `SHA1` value of the value received.
 
 + [x] 4. **Authenticate a user**
-  + In the file [`routes/index.js`](routes/index.js), add 3 new endpoints:
+  + In the file [`routes/index.ts`](routes/index.ts), add 3 new endpoints:
     + `GET /connect` => `AuthController.getConnect`.
     + `GET /disconnect` => `AuthController.getDisconnect`.
     + `GET /users/me` => `UserController.getMe`.
-  + Inside [`controllers`](controllers), add a file [`AuthController.js`](controllers/AuthController.js) that contains new endpoints:
+  + Inside [`controllers`](controllers), add a file [`AuthController.ts`](controllers/AuthController.ts) that contains new endpoints:
     + `GET /connect` should sign-in the user by generating a new authentication token:
       + By using the header `Authorization` and the technique of the Basic auth (Base64 of the `<email>:<password>`), find the user associated to this email and with this password (reminder: we are storing the SHA1 of the password).
       + If no user has been found, return an error `Unauthorized` with a status code 401
@@ -73,16 +73,16 @@
       + Retrieve the user based on the token:
         + If not found, return an error `Unauthorized` with a status code 401.
         + Otherwise, delete the token in Redis and return nothing with a status code 204.
-  + Inside the file [`controllers/UsersController.js`](controllers/UsersController.js) add a new endpoint:
+  + Inside the file [`controllers/UsersController.ts`](controllers/UsersController.ts) add a new endpoint:
   + `GET /users/me` should retrieve the user base on the token used:
     + Retrieve the user based on the token:
       + If not found, return an error `Unauthorized` with a status code 401.
       + Otherwise, return the user object (`email` and `id` only).
 
 + [x] 5. **First file**
-  + In the file routes/index.js, add a new endpoint:
+  + In the file routes/index.ts, add a new endpoint:
     + `POST /files` => `FilesController.postUpload`.
-  + Inside [`controllers`](controllers), add a file [`FilesController.js`](controllers/FilesController.js) that contains the new endpoint:
+  + Inside [`controllers`](controllers), add a file [`FilesController.ts`](controllers/FilesController.ts) that contains the new endpoint:
     + `POST /files` should create a new file in DB and in disk:
       + Retrieve the user based on the token:
         + If not found, return an error `Unauthorized` with a status code 401.
@@ -116,10 +116,10 @@
         + Return the new file with a status code 201.
 
 + [x] 6. **Get and list file**
-  + In the file [`routes/index.js`](routes/index.js), add 2 new endpoints:
+  + In the file [`routes/index.ts`](routes/index.ts), add 2 new endpoints:
     + `GET /files/:id` => `FilesController.getShow`.
     + `GET /files` => `FilesController.getIndex`.
-  + In the file [`controllers/FilesController.js`](controllers/FilesController.js), add the 2 new endpoints:
+  + In the file [`controllers/FilesController.ts`](controllers/FilesController.ts), add the 2 new endpoints:
     + `GET /files/:id` should retrieve the file document based on the ID:
       + Retrieve the user based on the token:
         + If not found, return an error `Unauthorized` with a status code 401.
@@ -138,10 +138,10 @@
           + Pagination can be done directly by the `aggregate` of MongoDB.
 
 + [x] 7. **File publish/unpublish**
-  + In the file [`routes/index.js`](routes/index.js), add 2 new endpoints:
+  + In the file [`routes/index.ts`](routes/index.ts), add 2 new endpoints:
     + `PUT /files/:id/publish` => `FilesController.putPublish`.
     + `PUT /files/:id/unpublish` => `FilesController.putUnpublish`.
-  + In the file [`controllers/FilesController.js`](controllers/FilesController.js), add the 2 new endpoints:
+  + In the file [`controllers/FilesController.ts`](controllers/FilesController.ts), add the 2 new endpoints:
     + `PUT /files/:id/publish` should set `isPublic` to `true` on the file document based on the ID:
       + Retrieve the user based on the token:
         + If not found, return an error `Unauthorized` with a status code 401.
@@ -158,9 +158,9 @@
         + And return the file document with a status code 200.
 
 + [x] 8. **File data**
-  + In the file [`routes/index.js`](routes/index.js), add one new endpoint:
+  + In the file [`routes/index.ts`](routes/index.ts), add one new endpoint:
     + `GET /files/:id/data` => `FilesController.getFile`.
-  + In the file [`controllers/FilesController.js`](controllers/FilesController.js), add the new endpoint:
+  + In the file [`controllers/FilesController.ts`](controllers/FilesController.ts), add the new endpoint:
     + `GET /files/:id/data` should return the content of the file document based on the ID:
       + If no file document is linked to the ID passed as parameter, return an error `Not found` with a status code 404.
       + If the file document (folder or file) is not public (`isPublic: false`) and no user authenticate or not the owner of the file, return an error `Not found` with a status code 404.
@@ -174,7 +174,7 @@
   + Update the endpoint `POST /files` endpoint to start a background processing for generating thumbnails for a file of type `image`:
     + Create a `Bull` queue `fileQueue`.
     + When a new image is stored (in local and in DB), add a job to this queue with the `userId` and `fileId`.
-  + Create a file [`worker.js`](worker.js):
+  + Create a file [`worker.ts`](worker.ts):
     + By using the module `Bull`, create a queue `fileQueue`.
     + Process this queue:
       + If `fileId` is not present in the job, raise an error `Missing fileId`.
@@ -207,7 +207,7 @@
   + Update the endpoint `POST /users` endpoint to start a background processing for sending a “Welcome email” to the user:
     + Create a `Bull` queue `userQueue`.
     + When a new user is stored (in DB), add a job to this queue with the `userId`.
-  + Update the file [worker.js](worker.js):
+  + Update the file [worker.ts](worker.ts):
     + By using the module `Bull`, create a queue `userQueue`.
     + Process this queue:
       + If `userId` is not present in the job, raise an error `Missing userId`.

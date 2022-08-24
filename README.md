@@ -2,7 +2,7 @@
 
 #### This project is a summary of back-end: authentication, NodeJS, MongoDB, Redis, pagination and background processing.
 
-##### The objective is to build a simple platform to upload and view files:
+##### This is a simple platform to upload and view files:
 
     * User authentication via a token
     * List all files

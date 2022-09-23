@@ -1,1 +1,3 @@
 # Add sensitive or unnecessary files and folders here
+# Prevent wrong hands from accesing your remote servers
+# Don't push unnecessary  files or folders to Github

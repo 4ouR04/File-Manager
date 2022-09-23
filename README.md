@@ -12,5 +12,7 @@
     * Generate thumbnails for images
 
 ## Authors :black_nib:
-* Amos Mwongela<[4ouR04](https://github.com/4ouR04)>
-* Evans Mwangangi<[mwangangievans](https://github.com/mwangangievans)>
+
+- Amos Mwongela<[4ouR04](https://github.com/4ouR04)>
+- Evans Mwangangi<[mwangangievans](https://github.com/mwangangievans)>
+- Ian Macharia<[karianmash](https://github.com/karianmash)>
